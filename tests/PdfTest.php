@@ -72,6 +72,11 @@ class PdfTest extends TestCase
         $this->assertFalse($this->pdfService->fileIsPdf($this->jpegPath));
     }
 
+    public function testDecrypt()
+    {
+        $this->assertTrue($this->pdfService->decrypt($this->onePagePdfPath));
+    }
+
     public function testGetNumberOfPages()
     {
         $this->assertEquals(3, $this->pdfService->getNumberOfPages($this->threePagePdfPath));

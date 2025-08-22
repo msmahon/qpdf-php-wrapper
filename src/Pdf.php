@@ -53,6 +53,23 @@ class Pdf
     }
 
     /**
+     * Decrypt a PDF file
+     * 
+     * @param string $path
+     * @return bool
+     * @throws ProcessFailedException
+     */
+    public function decrypt(string $path): bool
+    {
+        $process = new Process([$this->executablePath, '--decrypt', $path, '--replace-input']);
+        $process->run();
+        if (!$this->isSuccessful($process)) {
+            throw new ProcessFailedException($process);
+        }
+        return true;
+    }
+
+    /**
      * Get the number of pages in a pdf
      *
      * @param string $path
