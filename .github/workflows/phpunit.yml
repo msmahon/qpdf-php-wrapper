@@ -1,16 +1,25 @@
 name: PHPUnit (Unit Tests)
 
-on: [push]
+on: [push, workflow_dispatch]
 
 jobs:
   unit-tests:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: [ '8.1', '8.2', '8.3', '8.4', '8.5']
+
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v7
 
-      - name: Install Composer dependencies
-        uses: php-actions/composer@v6
+      - name: Setup php
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+
+      - name: Install dependencies
+        run: composer install --no-interaction --prefer-dist --no-progress
 
       - name: Install QPDF
         run: sudo apt-get install -y qpdf
